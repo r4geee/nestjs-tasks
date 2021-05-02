@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    container_name: nestjs_postgres
+    ports:
+      - "6543:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nestjs
+    volumes:
+      - $PWD/postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: nestjs_pgadmin
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    restart: unless-stopped
+    volumes:
+      - $PWD/pgadmin-data:/var/lib/pgadmin
+volumes:
+  postgres-nestjs-data:
+  pgadmin-nestjs-data:
